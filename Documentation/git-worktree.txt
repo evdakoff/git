@@ -60,8 +60,18 @@ $ git worktree add --track -b <branch> <path> <remote>/<branch>
 ------------
 +
 If `<branch>` is omitted and neither `-b` nor `-B` nor `--detach` used,
-then, as a convenience, a new branch based at HEAD is created automatically,
-as if `-b $(basename <path>)` was specified.
+then, as a convenience, if there exists a tracking branch in exactly
+one remote (call it `<remote>`) matching the basename of the path
+(call it `<branch>`), treat it as equivalent to
+------------
+$ git worktree add --track -b <branch> <path> <remote>/<branch>
+------------
+If no tracking branch exists in exactly one remote, `<branch>` is
+created based on HEAD, as if `-b $(basename <path>)` was specified.
++
+To disable the behaviour of trying to match the basename of <path> to
+a remote, and always create a new branch from HEAD, the `--no-track`
+flag can be passed to `git worktree add`.
 
 list::
 
