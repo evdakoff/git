@@ -107,6 +107,12 @@ OPTIONS
 	such as configuring sparse-checkout. See "Sparse checkout"
 	in linkgit:git-read-tree[1].
 
+--[no-]track::
+	With `--track` `<branch>` is set as "tracking" branch for
+	`<new-branch>`.  This is the default if `<branch>` is a remote
+	tracking branch, and can be suppressed with `--no-track`.  See
+	also linkgit:git-branch[1].
+
 --lock::
 	Keep the working tree locked after creation. This is the
 	equivalent of `git worktree lock` after `git worktree add`,
