@@ -54,9 +54,26 @@ is linked to the current repository, sharing everything except working
 directory specific files such as HEAD, index, etc. `-` may also be
 specified as `<branch>`; it is synonymous with `@{-1}`.
 +
+If <branch> is not found, and neither `-b` nor `-B` nor `--detach` are
+used, but there does exist a tracking branch in exactly one remote
+(call it <remote>) with a matching name, treat as equivalent to
+------------
+$ git worktree add --track -b <branch> <path> <remote>/<branch>
+------------
++
 If `<branch>` is omitted and neither `-b` nor `-B` nor `--detach` used,
-then, as a convenience, a new branch based at HEAD is created automatically,
-as if `-b $(basename <path>)` was specified.
+then, as a convenience, if there exists a tracking branch in exactly
+one remote (call it `<remote>`) matching the basename of the path
+(call it `<branch>`), treat it as equivalent to
+------------
+$ git worktree add --track -b <branch> <path> <remote>/<branch>
+------------
+If no tracking branch exists in exactly one remote, `<branch>` is
+created based on HEAD, as if `-b $(basename <path>)` was specified.
++
+To disable the behaviour of trying to match the basename of <path> to
+a remote, and always create a new branch from HEAD, the `--no-track`
+flag can be passed to `git worktree add`.
 
 list::
 
@@ -121,6 +138,12 @@ OPTIONS
 	be used to suppress checkout in order to make customizations,
 	such as configuring sparse-checkout. See "Sparse checkout"
 	in linkgit:git-read-tree[1].
+
+--[no-]track::
+	With `--track` `<branch>` is set as "tracking" branch for
+	`<new-branch>`.  This is the default if `<branch>` is a remote
+	tracking branch, and can be suppressed with `--no-track`.  See
+	also linkgit:git-branch[1].
 
 --lock::
 	Keep the working tree locked after creation. This is the
